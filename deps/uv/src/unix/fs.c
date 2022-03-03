@@ -902,6 +902,8 @@ static ssize_t uv__fs_sendfile(uv_fs_t* req) {
     off = req->off;
 
 #ifdef __linux__
+#if !defined(__ANDROID__) || (!defined(__i386__) && !defined(__arm__)) || (defined(_FILE_OFFSET_BITS) && _FILE_OFFSET_BITS-0 == 64)
+// copy_file_range needs large offsets.
     {
       static int copy_file_range_support = 1;
 
@@ -916,6 +918,7 @@ static ssize_t uv__fs_sendfile(uv_fs_t* req) {
         }
       }
     }
+#endif
 #endif
 
     r = sendfile(out_fd, in_fd, &off, req->bufsml[0].len);
@@ -941,7 +944,9 @@ ok:
 
     return -1;
   }
-#elif defined(__APPLE__)           || \
+#elif (defined(__APPLE__) && \
+       !TARGET_OS_IPHONE \
+      )                            || \
       defined(__DragonFly__)       || \
       defined(__FreeBSD__)         || \
       defined(__FreeBSD_kernel__)

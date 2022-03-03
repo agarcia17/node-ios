@@ -282,7 +282,7 @@
         ],
       },
     }],
-    [ 'coverage=="true" and node_shared=="false" and OS in "mac freebsd linux"', {
+    [ 'coverage=="true" and node_shared=="false" and OS in "mac ios freebsd linux"', {
       'cflags!': [ '-O3' ],
       'ldflags': [ '--coverage',
                    '-g',
@@ -326,11 +326,15 @@
         [ 'node_shared_openssl=="false"', {
           'dependencies': [
             './deps/openssl/openssl.gyp:openssl',
-
-            # For tests
-            './deps/openssl/openssl.gyp:openssl-cli',
           ],
           'conditions': [
+            [ 'OS != "ios"', {
+              'dependencies': [
+                #Not needed for iOS, doesn't build
+                # For tests
+                './deps/openssl/openssl.gyp:openssl-cli',
+              ],
+            }],
             # -force_load or --whole-archive are not applicable for
             # the static library
             [ 'force_load=="true"', {
@@ -369,6 +373,9 @@
 
     }, {
       'defines': [ 'HAVE_OPENSSL=0' ]
+    }],
+    [ 'OS=="ios"', {
+      'defines': [ 'NODE_MOBILE']
     }],
 
   ],

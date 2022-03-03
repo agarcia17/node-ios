@@ -1606,6 +1606,9 @@ def Main():
           'arch': vmArch,
           'type': get_env_type(vm, options.type, context),
         }
+        #If arch is ios, system is iOS as well.
+        if arch.lower() == "ios":
+          env['system'] = "ios"
         test_list = root.ListTests([], path, context, arch, mode)
         unclassified_tests += test_list
         cases, unused_rules = config.ClassifyTests(test_list, env)
