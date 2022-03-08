@@ -20,6 +20,10 @@
 #include <unicode/uversion.h>
 #endif  // NODE_HAVE_I18N_SUPPORT
 
+#ifdef NODE_MOBILE
+#include "node_mobile_version.h"
+#endif // NODE_MOBILE
+
 namespace node {
 
 namespace per_process {
@@ -79,6 +83,9 @@ Metadata::Versions::Versions() {
       NODE_STRINGIFY(LLHTTP_VERSION_MINOR)
       "."
       NODE_STRINGIFY(LLHTTP_VERSION_PATCH);
+#ifdef NODE_MOBILE
+  mobile = NODE_MOBILE_VERSION_STRING;
+#endif  //NODE MOBILE
 
   brotli =
     std::to_string(BrotliEncoderVersion() >> 24) +

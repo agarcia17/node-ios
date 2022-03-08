@@ -400,7 +400,7 @@
             },
           },
           'conditions': [
-            ['OS != "aix" and OS != "mac"', {
+            ['OS != "aix" and OS != "mac" and OS != "ios"', {
               'ldflags': [
                 '-Wl,--whole-archive',
                 '<(obj_dir)/<(STATIC_LIB_PREFIX)<(node_core_target_name)<(STATIC_LIB_SUFFIX)',
@@ -482,8 +482,12 @@
             },
           ],
         }, {
-          'sources': [
-            'src/node_code_cache_stub.cc'
+          'conditions': [
+            ['not (node_target_type=="static_library" and OS == "ios")', {
+              'sources': [
+                'src/node_code_cache_stub.cc'
+              ]
+            }]
           ],
         }],
         ['node_use_node_snapshot=="true"', {
@@ -507,8 +511,12 @@
             },
           ],
         }, {
-          'sources': [
-            'src/node_snapshot_stub.cc'
+          'conditions': [
+            ['not (node_target_type=="static_library" and OS == "ios")', {
+              'sources': [
+                'src/node_snapshot_stub.cc'
+              ],
+            }],
           ],
         }],
         [ 'OS in "linux freebsd" and '
@@ -677,6 +685,7 @@
         'src/node_mutex.h',
         'src/node_native_module.h',
         'src/node_native_module_env.h',
+        'src/node_mobile_version.h',
         'src/node_object_wrap.h',
         'src/node_options.h',
         'src/node_options-inl.h',
@@ -754,6 +763,12 @@
             'src/node_snapshot_stub.cc',
             'src/node_code_cache_stub.cc',
           ]
+        }],
+        [ 'node_target_type=="static_library" and OS=="ios"', {
+          'sources': [
+            'src/node_snapshot_stub.cc',
+            'src/node_code_cache_stub.cc',
+          ],
         }],
         [ 'node_shared=="true" and node_module_version!="" and OS!="win"', {
           'product_extension': '<(shlib_suffix)',
@@ -842,7 +857,7 @@
                 '<(SHARED_INTERMEDIATE_DIR)/node_dtrace_provider.o'
               ],
             }],
-            [ 'OS!="mac" and OS!="linux"', {
+            [ 'OS!="mac" and OS!="ios" and OS!="linux"', {
               'sources': [
                 'src/node_dtrace_ustack.cc',
                 'src/node_dtrace_provider.cc',
@@ -866,7 +881,7 @@
             'src/tls_wrap.h'
           ],
         }],
-        [ 'OS in "linux freebsd mac" and '
+        [ 'OS in "linux freebsd mac ios" and '
           'target_arch=="x64" and '
           'node_target_type=="executable"', {
           'defines': [ 'NODE_ENABLE_LARGE_CODE_PAGES=1' ],
@@ -990,7 +1005,7 @@
       'target_name': 'node_dtrace_provider',
       'type': 'none',
       'conditions': [
-        [ 'node_use_dtrace=="true" and OS!="mac" and OS!="linux"', {
+        [ 'node_use_dtrace=="true" and OS!="mac" and OS!="ios" and OS!="linux"', {
           'actions': [
             {
               'action_name': 'node_dtrace_provider_o',
@@ -1025,7 +1040,7 @@
       'target_name': 'node_dtrace_ustack',
       'type': 'none',
       'conditions': [
-        [ 'node_use_dtrace=="true" and OS!="mac" and OS!="linux"', {
+        [ 'node_use_dtrace=="true" and OS!="mac" and OS!="ios" and OS!="linux"', {
           'actions': [
             {
               'action_name': 'node_dtrace_ustack_constants',
@@ -1129,8 +1144,6 @@
       ],
 
       'sources': [
-        'src/node_snapshot_stub.cc',
-        'src/node_code_cache_stub.cc',
         'test/cctest/gtest/gtest-all.cc',
         'test/cctest/gtest/gtest_main.cc',
         'test/cctest/node_test_fixture.cc',
@@ -1224,8 +1237,6 @@
         'NODE_WANT_INTERNALS=1'
       ],
       'sources': [
-        'src/node_snapshot_stub.cc',
-        'src/node_code_cache_stub.cc',
         'tools/code_cache/mkcodecache.cc',
         'tools/code_cache/cache_builder.cc',
         'tools/code_cache/cache_builder.h',
@@ -1249,6 +1260,12 @@
             'winmm.lib',
             'Ws2_32.lib',
           ],
+        }],
+        [ 'not (node_target_type=="static_library" and OS=="ios")', {
+          'sources': [
+            'src/node_snapshot_stub.cc',
+            'src/node_code_cache_stub.cc',
+          ]
         }],
       ],
     }, # mkcodecache
@@ -1278,8 +1295,6 @@
       'defines': [ 'NODE_WANT_INTERNALS=1' ],
 
       'sources': [
-        'src/node_snapshot_stub.cc',
-        'src/node_code_cache_stub.cc',
         'tools/snapshot/node_mksnapshot.cc',
         'tools/snapshot/snapshot_builder.cc',
         'tools/snapshot/snapshot_builder.h',
@@ -1302,6 +1317,12 @@
             'winmm.lib',
             'Ws2_32.lib',
           ],
+        }],
+        [ 'not (node_target_type=="static_library" and OS=="ios")', {
+          'sources': [
+            'src/node_snapshot_stub.cc',
+            'src/node_code_cache_stub.cc',
+          ]
         }],
       ],
     }, # node_mksnapshot

@@ -47,7 +47,7 @@ from fetch_deps import FetchDeps
 # parse our options
 parser = optparse.OptionParser()
 
-valid_os = ('win', 'mac', 'solaris', 'freebsd', 'openbsd', 'linux',
+valid_os = ('win', 'mac', 'ios', 'solaris', 'freebsd', 'openbsd', 'linux',
             'android', 'aix', 'cloudabi')
 valid_arch = ('arm', 'arm64', 'ia32', 'mips', 'mipsel', 'mips64el', 'ppc',
               'ppc64', 'x32','x64', 'x86', 'x86_64', 's390x')
@@ -1012,6 +1012,8 @@ def gcc_version_ge(version_checked):
 
 
 def configure_node(o):
+  if options.dest_os == 'ios':
+    o['variables']['OS'] = 'ios'
   if options.dest_os == 'android':
     o['variables']['OS'] = 'android'
   o['variables']['node_prefix'] = options.prefix

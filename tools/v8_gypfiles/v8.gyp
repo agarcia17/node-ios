@@ -719,6 +719,17 @@
               ],
             }],
           ],
+          'target_conditions': [
+            ['_toolset == "host"', {
+              'target_conditions': [
+                ['host_os in ("mac", "linux")', {
+                  'sources': [
+                    '<!@pymod_do_main(GN-scraper "<(V8_ROOT)/BUILD.gn"  "\\"v8_base_without_compiler.*?is_linux.*?sources \+= ")',
+                  ],
+                }],
+              ],
+            }],
+          ],
         }],
         ['v8_target_arch=="arm"', {
           'sources': [  ### gcmole(arch:arm) ###
@@ -809,6 +820,19 @@
           'link_settings': {
             'libraries': ['-latomic', ],
           },
+        }],
+        ['v8_current_cpu=="arm"', {
+          'target_conditions': [
+            ['_toolset == "host"', {
+              'target_conditions': [
+                ['host_os != "mac"', {
+                  'libraries': ['-latomic', ],
+                }],
+              ],
+            }, {
+              'libraries': ['-latomic', ],
+            }],
+          ]
         }],
       ],
     },  # v8_base_without_compiler
