@@ -111,6 +111,7 @@ const isFreeBSD = process.platform === 'freebsd';
 const isOpenBSD = process.platform === 'openbsd';
 const isLinux = process.platform === 'linux';
 const isOSX = process.platform === 'darwin';
+const isIOS = process.platform === 'ios';
 
 const rootDir = isWindows ? 'c:\\' : '/';
 
@@ -673,6 +674,8 @@ const common = {
   isAIX,
   isAlive,
   isFreeBSD,
+  isIBMi,
+  isIOS,
   isLinux,
   isMainThread,
   isOpenBSD,
@@ -697,6 +700,10 @@ const common = {
   skipIfWorker,
 
   get enoughTestCpu() {
+  	if (isIOS) {
+  	  return true;
+  	}
+
     const cpus = require('os').cpus();
     return Array.isArray(cpus) && (cpus.length > 1 || cpus[0].speed > 999);
   },
