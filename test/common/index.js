@@ -111,6 +111,7 @@ const isFreeBSD = process.platform === 'freebsd';
 const isOpenBSD = process.platform === 'openbsd';
 const isLinux = process.platform === 'linux';
 const isOSX = process.platform === 'darwin';
+const isIOS = process.platform === 'ios';
 
 const isDumbTerminal = process.env.TERM === 'dumb';
 
@@ -706,6 +707,7 @@ const common = {
   isAlive,
   isDumbTerminal,
   isFreeBSD,
+  isIOS,
   isLinux,
   isMainThread,
   isOpenBSD,
@@ -730,8 +732,13 @@ const common = {
   skipIfWorker,
 
   get enoughTestCpu() {
-    const cpus = require('os').cpus();
-    return Array.isArray(cpus) && (cpus.length > 1 || cpus[0].speed > 999);
+    if (isIOS) {
+      // On iOS devices, CPU information might be unavailable.
+      return true;
+    } else {
+      const cpus = require('os').cpus();
+      return Array.isArray(cpus) && (cpus.length > 1 || cpus[0].speed > 999);
+    }
   },
 
   get enoughTestMem() {

@@ -7,6 +7,10 @@ const { AssertionError } = assert;
 const defaultMsgStart = 'Expected values to be strictly deep-equal:\n';
 const defaultMsgStartFull = `${defaultMsgStart}+ actual - expected`;
 
+// iOS reports TTY window size as 0, which causes the strings diverge indicator to not show.
+process.stderr.columns = 120;
+process.stdout.columns = 120;
+
 // Disable colored output to prevent color codes from breaking assertion
 // message comparisons. This should only be an issue when process.stdout
 // is a TTY.

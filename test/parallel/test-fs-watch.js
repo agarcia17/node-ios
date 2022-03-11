@@ -24,7 +24,7 @@ class WatchTestCase {
 const cases = [
   // Watch on a directory should callback with a filename on supported systems
   new WatchTestCase(
-    common.isLinux || common.isOSX || common.isWindows || common.isAIX,
+    common.isLinux || common.isOSX || common.isIOS || common.isWindows || common.isAIX,
     'watch1',
     'foo',
     'filePath'
@@ -66,7 +66,7 @@ for (const testCase of cases) {
       clearInterval(interval);
       interval = null;
     }
-    if (common.isOSX)
+    if (common.isOSX || common.isIOS)
       assert.strictEqual(['rename', 'change'].includes(eventType), true);
     else
       assert.strictEqual(eventType, 'change');

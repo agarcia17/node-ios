@@ -29,6 +29,10 @@ const vm = require('vm');
 const { internalBinding } = require('internal/test/binding');
 const a = assert;
 
+// iOS reports TTY window size as 0, which causes the strings diverge indicator to not show.
+process.stderr.columns = 120;
+process.stdout.columns = 120;
+
 // Disable colored output to prevent color codes from breaking assertion
 // message comparisons. This should only be an issue when process.stdout
 // is a TTY.
