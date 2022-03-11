@@ -577,8 +577,8 @@ def _LookupTargets(names, mapping):
 def CalculateVariables(default_variables, params):
   """Calculate additional variables for use in the build (called by gyp)."""
   flavor = gyp.common.GetFlavor(params)
-  if flavor == 'mac':
-    default_variables.setdefault('OS', 'mac')
+  if flavor == 'ios':
+    default_variables.setdefault('OS', 'ios')
   elif flavor == 'win':
     default_variables.setdefault('OS', 'win')
     # Copy additional generator configuration data from VS, which is shared

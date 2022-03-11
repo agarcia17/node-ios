@@ -48,7 +48,11 @@ namespace node {
 #define NODE_VERSIONS_KEY_INTL(V)
 #endif  // NODE_HAVE_I18N_SUPPORT
 
+#define NODE_VERSIONS_KEY_MOBILE(V)                                            \
+  V(mobile)
+
 #define NODE_VERSIONS_KEYS(V)                                                  \
+  NODE_VERSIONS_KEY_MOBILE(V)                                                  \
   NODE_VERSIONS_KEYS_BASE(V)                                                   \
   NODE_VERSIONS_KEY_CRYPTO(V)                                                  \
   NODE_VERSIONS_KEY_INTL(V)

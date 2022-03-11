@@ -6,7 +6,7 @@
       'type': 'shared_library',
       'sources': [ 'ping.c' ],
       'conditions': [
-        ['OS=="mac"', {
+        ['OS=="ios"', {
           'xcode_settings': {
             'OTHER_LDFLAGS': [ '-Wl,-undefined', '-Wl,dynamic_lookup' ]
         }}],

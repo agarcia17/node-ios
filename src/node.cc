@@ -720,26 +720,6 @@ void ResetStdio() {
       while (err == -1 && errno == EINTR);  // NOLINT
       CHECK_NE(err, -1);
     }
-
-    if (s.isatty) {
-      sigset_t sa;
-      int err;
-
-      // We might be a background job that doesn't own the TTY so block SIGTTOU
-      // before making the tcsetattr() call, otherwise that signal suspends us.
-      sigemptyset(&sa);
-      sigaddset(&sa, SIGTTOU);
-
-      CHECK_EQ(0, pthread_sigmask(SIG_BLOCK, &sa, nullptr));
-      do
-        err = tcsetattr(fd, TCSANOW, &s.termios);
-      while (err == -1 && errno == EINTR);  // NOLINT
-      CHECK_EQ(0, pthread_sigmask(SIG_UNBLOCK, &sa, nullptr));
-
-      // Normally we expect err == 0. But if macOS App Sandbox is enabled,
-      // tcsetattr will fail with err == -1 and errno == EPERM.
-      CHECK_IMPLIES(err != 0, err == -1 && errno == EPERM);
-    }
   }
 #endif  // __POSIX__
 }

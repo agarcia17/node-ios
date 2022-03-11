@@ -640,7 +640,7 @@ def WriteTarget(namer, qualified_target, target_dicts, build_dir, config_to_use,
   config = spec.get('configurations', {}).get(config_to_use, {})
 
   xcode_settings = None
-  if flavor == 'mac':
+  if flavor == 'ios':
     xcode_settings = gyp.xcode_emulation.XcodeSettings(spec)
 
   target_name = spec.get('target_name', '<missing target name>')
@@ -1053,7 +1053,7 @@ def WriteTarget(namer, qualified_target, target_dicts, build_dir, config_to_use,
       output.write(cmake_target_name)
       output.write('\n')
       if static_deps:
-        write_group = circular_libs and len(static_deps) > 1 and flavor != 'mac'
+        write_group = circular_libs and len(static_deps) > 1 and flavor != 'ios'
         if write_group:
           output.write('-Wl,--start-group\n')
         for dep in gyp.common.uniquer(static_deps):
@@ -1167,7 +1167,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data,
   # Force ninja to use rsp files. Otherwise link and ar lines can get too long,
   # resulting in 'Argument list too long' errors.
   # However, rsp files don't work correctly on Mac.
-  if flavor != 'mac':
+  if flavor != 'ios':
     output.write('set(CMAKE_NINJA_FORCE_RESPONSE_FILE 1)\n')
   output.write('\n')
 
@@ -1183,7 +1183,7 @@ def GenerateOutputForConfig(target_list, target_dicts, data,
       all_qualified_targets.add(qualified_target)
 
   for qualified_target in target_list:
-    if flavor == 'mac':
+    if flavor == 'ios':
       gyp_file, _, _ = gyp.common.ParseQualifiedTarget(qualified_target)
       spec = target_dicts[qualified_target]
       gyp.xcode_emulation.MergeGlobalXcodeSettingsToSpec(data[gyp_file], spec)

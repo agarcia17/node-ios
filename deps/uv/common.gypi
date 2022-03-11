@@ -169,7 +169,7 @@
           }],
         ],
       }],
-      ['OS=="mac"', {
+      ['OS=="ios"', {
         'xcode_settings': {
           'ALWAYS_SEARCH_USER_PATHS': 'NO',
           'GCC_CW_ASM_SYNTAX': 'NO',                # No -fasm-blocks
@@ -191,10 +191,19 @@
         },
         'conditions': [
           ['target_arch=="ia32"', {
-            'xcode_settings': {'ARCHS': ['i386']},
+            'xcode_settings': {'ARCHS': ['i386'], 'SDKROOT': 'iphonesimulator'},
           }],
           ['target_arch=="x64"', {
-            'xcode_settings': {'ARCHS': ['x86_64']},
+            'xcode_settings': {'ARCHS': ['x86_64'], 'SDKROOT': 'iphonesimulator'},
+          }],
+          ['target_arch=="arm64"', {
+            'xcode_settings': {
+              'ARCHS': ['arm64'],
+              'SDKROOT': 'iphoneos',
+              'ENABLE_BITCODE': 'YES',
+              'OTHER_CFLAGS': ['-fembed-bitcode'],
+              'OTHER_CPLUSPLUSFLAGS': ['-fembed-bitcode'],
+            },
           }],
         ],
         'target_conditions': [

@@ -139,3 +139,18 @@ _UpgradeReport_Files/
 __pycache__
 .DS_Store
 *~
+
+# === Rules for iOS framework ===
+tools/ios-framework/bin
+tools/ios-framework/obj
+out_ios
+!tools/ios-framework/NodeMobile.xcodeproj
+!tools/ios-framework/NodeMobile.xcodeproj/**
+tools/ios-framework/NodeMobile.xcodeproj/project.xcworkspace/xcuserdata/**
+tools/ios-framework/NodeMobile.xcodeproj/xcuserdata/**
+
+!tools/mobile-test/ios/testnode/testnode.xcodeproj
+!tools/mobile-test/ios/testnode/testnode.xcodeproj/**
+tools/mobile-test/ios/testnode/testnode.xcodeproj/project.xcworkspace/xcuserdata/**
+tools/mobile-test/ios/testnode/testnode.xcodeproj/xcuserdata/**
+

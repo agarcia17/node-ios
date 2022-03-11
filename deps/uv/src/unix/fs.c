@@ -928,8 +928,7 @@ ok:
 
     return -1;
   }
-#elif defined(__APPLE__)           || \
-      defined(__DragonFly__)       || \
+#elif defined(__DragonFly__)       || \
       defined(__FreeBSD__)         || \
       defined(__FreeBSD_kernel__)
   {

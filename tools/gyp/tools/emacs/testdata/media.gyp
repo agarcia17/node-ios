@@ -431,7 +431,7 @@
             'video/capture/video_capture_device_dummy.h',
           ],
         }],
-        ['OS=="mac"', {
+        ['OS=="ios"', {
           'link_settings': {
             'libraries': [
               '$(SDKROOT)/System/Library/Frameworks/AudioUnit.framework',
@@ -545,12 +545,12 @@
             'base/simd/scale_yuv_to_rgb_sse2_x64.asm',
           ],
         }],
-        [ 'os_posix == 1 and OS != "mac" and OS != "android"', {
+        [ 'os_posix == 1 and OS != "ios" and OS != "android"', {
           'cflags': [
             '-msse2',
           ],
         }],
-        [ 'OS == "mac"', {
+        [ 'OS == "ios"', {
           'configurations': {
             'Debug': {
               'xcode_settings': {
@@ -572,7 +572,7 @@
             ],
           },
         }],
-        [ 'OS=="mac"', {
+        [ 'OS=="ios"', {
           'variables': {
             'yasm_flags': [
               '-DPREFIX',
@@ -582,7 +582,7 @@
             ],
           },
         }],
-        [ 'os_posix==1 and OS!="mac"', {
+        [ 'os_posix==1 and OS!="ios"', {
           'variables': {
             'conditions': [
               [ 'target_arch=="ia32"', {
@@ -710,7 +710,7 @@
         'webm/webm_parser_unittest.cc',
       ],
       'conditions': [
-        ['os_posix==1 and OS!="mac"', {
+        ['os_posix==1 and OS!="ios"', {
           'conditions': [
             ['linux_use_tcmalloc==1', {
               'dependencies': [
@@ -930,7 +930,7 @@
         },
       ],
     }],
-    ['os_posix == 1 and OS != "mac" and OS != "android"', {
+    ['os_posix == 1 and OS != "ios" and OS != "android"', {
       'targets': [
         {
           'target_name': 'player_x11',
@@ -1064,7 +1064,7 @@
             'filters/pipeline_integration_test_base.cc',
           ],
           'conditions': [
-            ['os_posix==1 and OS!="mac"', {
+            ['os_posix==1 and OS!="ios"', {
               'conditions': [
                 ['linux_use_tcmalloc==1', {
                   'dependencies': [

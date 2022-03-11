@@ -531,8 +531,7 @@ class XcodeSettings(object):
     return XcodeSettings._sdk_path_cache[sdk_root]
 
   def _AppendPlatformVersionMinFlags(self, lst):
-    self._Appendf(lst, 'MACOSX_DEPLOYMENT_TARGET', '-mmacosx-version-min=%s')
-    if 'IPHONEOS_DEPLOYMENT_TARGET' in self._Settings():
+    if 'IPHONEOS_DEPLOYMENT_TARGET' in self._Settings() and self._Settings()['IPHONEOS_DEPLOYMENT_TARGET']:
       # TODO: Implement this better?
       sdk_path_basename = os.path.basename(self._SdkPath())
       if sdk_path_basename.lower().startswith('iphonesimulator'):

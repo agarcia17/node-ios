@@ -8,6 +8,7 @@
 #include "uv.h"
 #include "v8.h"
 #include "zlib.h"
+#include "node_mobile_version.h"
 
 #if HAVE_OPENSSL
 #include <openssl/opensslv.h>
@@ -65,6 +66,7 @@ void Metadata::Versions::InitializeIntlVersions() {
 #endif  // NODE_HAVE_I18N_SUPPORT
 
 Metadata::Versions::Versions() {
+  mobile = NODE_MOBILE_VERSION_STRING;
   node = NODE_VERSION_STRING;
   v8 = v8::V8::GetVersion();
   uv = uv_version_string();

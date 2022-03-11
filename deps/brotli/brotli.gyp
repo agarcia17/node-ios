@@ -15,9 +15,9 @@
             'OS_FREEBSD'
           ]
         }],
-        ['OS=="mac"', {
+        ['OS=="ios"', {
           'defines': [
-            'OS_MACOSX'
+            'OS_IOS'
           ]
         }],
       ],

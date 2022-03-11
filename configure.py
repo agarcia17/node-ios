@@ -47,7 +47,7 @@ from fetch_deps import FetchDeps
 # parse our options
 parser = optparse.OptionParser()
 
-valid_os = ('win', 'mac', 'solaris', 'freebsd', 'openbsd', 'linux',
+valid_os = ('win', 'ios', 'solaris', 'freebsd', 'openbsd', 'linux',
             'android', 'aix', 'cloudabi')
 valid_arch = ('arm', 'arm64', 'ia32', 'mips', 'mipsel', 'mips64el', 'ppc',
               'ppc64', 'x32','x64', 'x86', 'x86_64', 's390x')
@@ -1043,8 +1043,8 @@ def gcc_version_ge(version_checked):
 
 
 def configure_node(o):
-  if options.dest_os == 'android':
-    o['variables']['OS'] = 'android'
+  if options.dest_os == 'ios':
+    o['variables']['OS'] = 'ios'
   o['variables']['node_prefix'] = options.prefix
   o['variables']['node_install_npm'] = b(not options.without_npm)
   o['variables']['debug_node'] = b(options.debug_node)
@@ -1133,7 +1133,7 @@ def configure_node(o):
 
   o['variables']['enable_lto'] = b(options.enable_lto)
 
-  if flavor in ('solaris', 'mac', 'linux', 'freebsd'):
+  if flavor in ('solaris', 'ios', 'linux', 'freebsd'):
     use_dtrace = not options.without_dtrace
     # Don't enable by default on linux and freebsd
     if flavor in ('linux', 'freebsd'):
@@ -1368,8 +1368,8 @@ def configure_openssl(o):
 
 def configure_static(o):
   if options.fully_static or options.partly_static:
-    if flavor == 'mac':
-      warn("Generation of static executable will not work on OSX "
+    if flavor == 'ios':
+      warn("Generation of static executable will not work on iOS "
             "when using the default compilation environment")
       return
 
@@ -1687,7 +1687,7 @@ def configure_intl(o):
   elif with_intl == 'small-icu' or options.cross_compiling:
     icu_config['variables']['icu_asm_ext'] = 'c'
     icu_config['variables']['icu_asm_opts'] = []
-  elif flavor == 'mac':
+  elif flavor == 'ios':
     icu_config['variables']['icu_asm_ext'] = 'S'
     icu_config['variables']['icu_asm_opts'] = [ '-a', 'gcc-darwin' ]
   elif sys.platform.startswith('aix'):

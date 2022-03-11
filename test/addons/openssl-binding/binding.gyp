@@ -23,7 +23,7 @@
             }],
           ],
         }],
-        ['OS=="mac"', {
+        ['OS=="ios"', {
           'xcode_settings': {
             'OTHER_CFLAGS+': [
               '-Wno-deprecated-declarations',

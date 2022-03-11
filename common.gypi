@@ -103,7 +103,7 @@
       }, {
         'openssl_product': '<(STATIC_LIB_PREFIX)openssl<(STATIC_LIB_SUFFIX)',
       }],
-      ['OS=="mac"', {
+      ['OS=="ios"', {
         'clang%': 1,
         'obj_dir%': '<(PRODUCT_DIR)/obj.target',
         'v8_base': '<(PRODUCT_DIR)/libv8_snapshot.a',
@@ -176,7 +176,7 @@
             # pull in V8's postmortem metadata
             'ldflags': [ '-Wl,-z,allextract' ]
           }],
-          ['OS!="mac" and OS!="win"', {
+          ['OS!="ios" and OS!="win"', {
             'cflags': [ '-fno-omit-frame-pointer' ],
           }],
           ['OS=="linux"', {
@@ -302,7 +302,7 @@
       [ 'target_arch=="arm64"', {
         'msvs_configuration_platform': 'arm64',
       }],
-      ['asan == 1 and OS != "mac"', {
+      ['asan == 1 and OS != "ios"', {
         'cflags+': [
           '-fno-omit-frame-pointer',
           '-fsanitize=address',
@@ -312,7 +312,7 @@
         'cflags!': [ '-fomit-frame-pointer' ],
         'ldflags': [ '-fsanitize=address' ],
       }],
-      ['asan == 1 and OS == "mac"', {
+      ['asan == 1 and OS == "ios"', {
         'xcode_settings': {
           'OTHER_CFLAGS+': [
             '-fno-omit-frame-pointer',
@@ -451,7 +451,7 @@
           }],
         ],
       }],
-      ['OS=="mac"', {
+      ['OS=="ios"', {
         'defines': ['_DARWIN_USE_64_BIT_INODE=1'],
         'xcode_settings': {
           'ALWAYS_SEARCH_USER_PATHS': 'NO',
@@ -462,7 +462,7 @@
           'GCC_ENABLE_CPP_RTTI': 'NO',              # -fno-rtti
           'GCC_ENABLE_PASCAL_STRINGS': 'NO',        # No -mpascal-strings
           'PREBINDING': 'NO',                       # No -Wl,-prebind
-          'MACOSX_DEPLOYMENT_TARGET': '10.13',      # -mmacosx-version-min=10.13
+          'IPHONEOS_DEPLOYMENT_TARGET': '15.0',    # -miphoneos-version-min=15.0
           'USE_HEADERMAP': 'NO',
           'OTHER_CFLAGS': [
             '-fno-strict-aliasing',
@@ -472,13 +472,17 @@
             '-Wendif-labels',
             '-W',
             '-Wno-unused-parameter',
+            '-Wno-unused-variable',
+            '-Wno-inconsistent-missing-override',
+            '-Wno-deprecated-declarations',
+            '-Wno-deprecated-copy',
+            '-Wno-unused-function'
           ],
         },
         'target_conditions': [
           ['_type!="static_library"', {
             'xcode_settings': {
               'OTHER_LDFLAGS': [
-                '-Wl,-no_pie',
                 '-Wl,-search_paths_first',
               ],
             },
@@ -486,10 +490,19 @@
         ],
         'conditions': [
           ['target_arch=="ia32"', {
-            'xcode_settings': {'ARCHS': ['i386']},
+            'xcode_settings': {'ARCHS': ['i386'], 'SDKROOT': 'iphonesimulator'},
           }],
           ['target_arch=="x64"', {
-            'xcode_settings': {'ARCHS': ['x86_64']},
+            'xcode_settings': {'ARCHS': ['x86_64'], 'SDKROOT': 'iphonesimulator'},
+          }],
+          ['target_arch=="arm64"', {
+            'xcode_settings': {
+              'ARCHS': ['arm64'],
+              'SDKROOT': 'iphoneos',
+              'ENABLE_BITCODE': 'YES',
+              'OTHER_CFLAGS': ['-fembed-bitcode'],
+              'OTHER_CPLUSPLUSFLAGS': ['-fembed-bitcode'],
+            },
           }],
           ['target_arch=="arm64"', {
             'xcode_settings': {

@@ -21,3 +21,6 @@
 #if defined(OPENSSL_LINUX) && !defined(__GLIBC__) && !defined(__clang__)
 # define OPENSSL_NO_ASYNC
 #endif
+
+# include <TargetConditionals.h>
+# define OPENSSL_NO_ASYNC
